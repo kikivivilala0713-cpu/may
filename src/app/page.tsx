@@ -79,9 +79,12 @@ export default async function Home({
                   {new Date(post.createdAt).toLocaleString("ko-KR")}
                 </span>
               </div>
-              <h2 className="mt-2 text-lg font-semibold text-stone-800">
+              <Link
+                href={`/posts/${post.id}`}
+                className="mt-2 block text-lg font-semibold text-stone-800 hover:text-orange-600"
+              >
                 {post.title}
-              </h2>
+              </Link>
               <p className="mt-1 whitespace-pre-wrap text-sm text-stone-600">
                 {post.content}
               </p>

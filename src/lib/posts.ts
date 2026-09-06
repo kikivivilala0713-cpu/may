@@ -34,6 +34,25 @@ export async function getPosts(): Promise<Post[]> {
   }));
 }
 
+export async function getPost(id: string): Promise<Post | null> {
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error || !data) return null;
+
+  return {
+    id: data.id,
+    category: data.category,
+    title: data.title,
+    content: data.content,
+    author: data.author,
+    createdAt: data.created_at,
+  };
+}
+
 export async function addPost(data: {
   category: Category;
   title: string;

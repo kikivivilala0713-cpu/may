@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { addPost, type Category } from "@/lib/posts";
+import { addComment } from "@/lib/comments";
 
 export async function createPostAction(formData: FormData) {
   const category = formData.get("category");
@@ -27,4 +28,23 @@ export async function createPostAction(formData: FormData) {
 
   revalidatePath("/");
   redirect("/");
+}
+
+export async function createCommentAction(formData: FormData) {
+  const postId = formData.get("postId");
+  const content = formData.get("content");
+
+  if (
+    typeof postId !== "string" ||
+    !postId ||
+    typeof content !== "string" ||
+    !content.trim()
+  ) {
+    throw new Error("입력값을 확인해주세요.");
+  }
+
+  await addComment(postId, content.trim());
+
+  revalidatePath(`/posts/${postId}`);
+  redirect(`/posts/${postId}`);
 }
