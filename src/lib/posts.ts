@@ -57,13 +57,19 @@ export async function addPost(data: {
   category: Category;
   title: string;
   content: string;
-}): Promise<void> {
-  const { error } = await supabase.from("posts").insert({
-    category: data.category,
-    title: data.title,
-    content: data.content,
-    author: "익명",
-  });
+}): Promise<string> {
+  const { data: row, error } = await supabase
+    .from("posts")
+    .insert({
+      category: data.category,
+      title: data.title,
+      content: data.content,
+      author: "익명",
+    })
+    .select("id")
+    .single();
 
   if (error) throw error;
+
+  return row.id;
 }

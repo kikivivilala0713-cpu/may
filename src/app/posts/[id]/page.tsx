@@ -60,21 +60,33 @@ export default async function PostDetailPage({
                 아직 댓글이 없어요. 첫 댓글을 남겨보세요!
               </li>
             )}
-            {comments.map((c) => (
-              <li key={c.id} className="rounded-xl bg-orange-50/60 p-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-stone-500">
-                    {c.author}
-                  </span>
-                  <span className="text-xs text-stone-400">
-                    {new Date(c.createdAt).toLocaleString("ko-KR")}
-                  </span>
-                </div>
-                <p className="mt-1 whitespace-pre-wrap text-sm text-stone-700">
-                  {c.content}
-                </p>
-              </li>
-            ))}
+            {comments.map((c) => {
+              const isAI = c.author === "AI 상담원";
+              return (
+                <li
+                  key={c.id}
+                  className={`rounded-xl p-3 ${
+                    isAI ? "bg-amber-100/70" : "bg-orange-50/60"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span
+                      className={`flex items-center gap-1 text-xs font-semibold ${
+                        isAI ? "text-amber-700" : "text-stone-500"
+                      }`}
+                    >
+                      {isAI && "🤖"} {c.author}
+                    </span>
+                    <span className="text-xs text-stone-400">
+                      {new Date(c.createdAt).toLocaleString("ko-KR")}
+                    </span>
+                  </div>
+                  <p className="mt-1 whitespace-pre-wrap text-sm text-stone-700">
+                    {c.content}
+                  </p>
+                </li>
+              );
+            })}
           </ul>
 
           <form action={createCommentAction} className="mt-5 space-y-2">
