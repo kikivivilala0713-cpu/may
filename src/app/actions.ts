@@ -19,7 +19,7 @@ export async function createPostAction(formData: FormData) {
     throw new Error("입력값을 확인해주세요.");
   }
 
-  addPost({
+  await addPost({
     category: category as Category,
     title: title.trim(),
     content: content.trim(),

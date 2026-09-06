@@ -13,7 +13,8 @@ export default async function Home({
   searchParams: Promise<{ category?: string }>;
 }) {
   const { category } = await searchParams;
-  const posts = getPosts().filter(
+  const allPosts = await getPosts();
+  const posts = allPosts.filter(
     (p) => !category || category === "all" || p.category === category
   );
 
